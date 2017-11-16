@@ -13,6 +13,7 @@ npm start
 ```
 rm -rf .git
 git init
+git add .
 git commit -a -m'1st commit'
 git remote add origin <your repo>
 git push -f origin master
