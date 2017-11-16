@@ -28,7 +28,6 @@ controller.readDetail = async(req, res, type) => {
         const restaurant = await Restaurant.read({
             _id: new ObjectID(req.params.id)
         })
-        // console.log(restaurant, req.params.id)
         logger.info('sending all restaurants...')
         if (type == 'edit') {
             res.render('rtForm', {
@@ -45,7 +44,6 @@ controller.readDetail = async(req, res, type) => {
         res.render('detailRt', {
             restaurant: {}
         })
-        // res.send('Got error in getAll')
     }
 }
 
@@ -168,7 +166,7 @@ controller.rateRestaurant = async(req, res) => {
                     score: rate
                 }
             }
-        })
+        },req.session.username)
         logger.info('Rated Restaurant- ' + rateRestaurant)
         res.redirect('/restaurant/display/' + id)
     } catch (err) {
