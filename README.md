@@ -5,7 +5,11 @@ Clone the repository and run `npm install`
 ```
 git clone https://github.com/g1153567/s381f-a.git
 npm install
+rm -rf .git
+git push -f origin master
 ```
+
+
 
 ## Starting the server
 
