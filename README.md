@@ -15,13 +15,8 @@ npm start
 
 The server will run on port 3000. You can change this by editing `config.dev.js` file.
 
-## Run server in production with Docker
+## Run server in production
 
 ```
 npm run build
 ```
-
-## Debugging with Webstorm
-
-Set babel-node executable as the node interpreter.
-Pass node parameters of --preset=babel-preset-es2015
