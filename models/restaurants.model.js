@@ -22,7 +22,6 @@ RestaurantsModel.addRestaurant = (restaurantToAdd, reject) => {
 
 RestaurantsModel.editRestaurant = (options1, options2, owner) => {
     return new Promise((resolve, reject) => {
-        var data = {}
         global.rt.find(options1).limit(1).toArray((err, data) => {
             resolve(data)
         })
@@ -41,8 +40,6 @@ RestaurantsModel.rateRestaurant = (options1, options2, owner) => {
     return new Promise((resolve, reject) => {
         resolve()
     }).then(() => {
-        // console.log()
-        // if (data[0].owner != owner) throw ('No Permission')
         return global.rt.update(options1, options2)
     })
 }

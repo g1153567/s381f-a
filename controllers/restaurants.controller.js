@@ -183,7 +183,7 @@ controller.editRestaurant = async(req, res) => {
     try {
         const editedRestaurant = await Restaurant.editRestaurant({
             _id: new ObjectID(id)
-        }, formData)
+        }, formData,req.session.username)
         logger.info('Edited Restaurant- ' + editedRestaurant)
         res.redirect('/restaurant/display/' + id)
     } catch (err) {
