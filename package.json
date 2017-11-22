@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon ./server.js --exec babel-node",
-    "build": "babel . -d dist --presets es2015,stage-2 --ignore spec.js,node_modules && babel public -d dist --out-dir dist/public --copy-files",
+    "build": "babel . -d dist --presets es2015,stage-2 --ignore spec.js,node_modules && babel public -d dist --out-dir dist/public --copy-files && babel views -d dist --out-dir dist/views --copy-files",
     "serve": "node dist/server.js",
     "start_babel": "babel-node ./server.js --preset=babel-preset-es2015",
     "test": "echo \"Error: no test specified\" && exit 1",
