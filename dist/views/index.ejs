@@ -1,0 +1,34 @@
+<% include ./head %>
+    <div class="container">
+        <br />
+        <p class="pull-right">Login as <%= username %></p>
+        <H1>Restaurants
+            <a href="/restaurant/new">
+                <button class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span> Add</button>
+            </a>
+            <a href="/logout">
+                <button class="btn btn-primary">
+                    <span class="glyphicon glyphicon-log-out"></span> Logout</button>
+            </a>
+        </H1>
+        <table class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+            <% restaurants.forEach(function(rt) { %>
+                <tr>
+                    <td>
+                        <%= rt.restaurant_id %>
+                    </td>
+                    <td>
+                        <a href=<%="/restaurant/display/" +rt._id %>>
+                            <%= rt.name %>
+                        </a>
+                    </td>
+                </tr>
+                <% }) %>
+        </table>
+        <hr>
+        <% include ./foot %>
