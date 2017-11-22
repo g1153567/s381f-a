@@ -38,7 +38,6 @@ RestaurantsModel.addRestaurant = function (restaurantToAdd, reject) {
 
 RestaurantsModel.editRestaurant = function (options1, options2, owner) {
     return new _promise2.default(function (resolve, reject) {
-        var data = {};
         global.rt.find(options1).limit(1).toArray(function (err, data) {
             resolve(data);
         });
@@ -53,10 +52,14 @@ RestaurantsModel.editRestaurant = function (options1, options2, owner) {
 
 RestaurantsModel.rateRestaurant = function (options1, options2, owner) {
     return new _promise2.default(function (resolve, reject) {
-        resolve();
-    }).then(function () {
-        // console.log()
-        // if (data[0].owner != owner) throw ('No Permission')
+        global.rt.find(options1).limit(1).toArray(function (err, data) {
+            resolve(data);
+        });
+    }).then(function (data) {
+        return data[0].grades.map(function (grade) {
+            if (grade.user == owner) throw 'You have already rated the restaurant';
+        });
+    }).then(function (data) {
         return global.rt.update(options1, options2);
     });
 };
@@ -66,10 +69,9 @@ RestaurantsModel.removeRestaurant = function (id, owner) {
         global.rt.find({
             _id: id
         }).limit(1).toArray(function (err, data) {
-            return resolve(data);
+            resolve(data);
         });
     }).then(function (data) {
-        console.log(data);
         if (data[0].owner != owner) throw 'No Permission';
         return global.rt.remove({
             _id: id

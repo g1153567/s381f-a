@@ -99,7 +99,6 @@ controller.readDetail = function () {
                     case 3:
                         restaurant = _context2.sent;
 
-                        // console.log(restaurant, req.params.id)
                         _appLogger2.default.info('sending all restaurants...');
                         if (type == 'edit') {
                             res.render('rtForm', {
@@ -122,7 +121,6 @@ controller.readDetail = function () {
                         res.render('detailRt', {
                             restaurant: {}
                         });
-                        // res.send('Got error in getAll')
 
                     case 12:
                     case 'end':
@@ -320,7 +318,7 @@ controller.rateRestaurant = function () {
                                     score: rate
                                 }
                             }
-                        });
+                        }, req.session.username);
 
                     case 5:
                         rateRestaurant = _context5.sent;
@@ -363,7 +361,7 @@ controller.editRestaurant = function () {
                         _context6.next = 5;
                         return _restaurants2.default.editRestaurant({
                             _id: new _mongodb.ObjectID(id)
-                        }, formData);
+                        }, formData, req.session.username);
 
                     case 5:
                         editedRestaurant = _context6.sent;

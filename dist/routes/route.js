@@ -122,6 +122,13 @@ router.get(rtUrl + '/delete/:id', function (req, res) {
     });
 });
 
+router.use(function (req, res, next) {
+    // var err = new Error('Not Found')
+    // err.status = 404
+    // next(err)
+    res.redirect('/');
+});
+
 var authen = function authen(req, res, callback) {
     if (global.userSet.has(req.session.username)) {
         callback();
