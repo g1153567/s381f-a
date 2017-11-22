@@ -1,24 +1,22 @@
 <% include ./head %>
     <div class="container">
         <br />
-        <p class="pull-right">Login as <%= username %></p>
+        <p class="pull-right">Login as <%= username %>
+            <a href="/logout" type="button" class="btn btn-sm btn-info">
+                    <span class="glyphicon glyphicon-log-out"></span> Logout
+            </a></p>
         <H1>Restaurants
-            <a href="/restaurant/new">
-                <button class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span> Add</button>
-            </a>
-            <a href="/logout">
-                <button class="btn btn-primary">
-                    <span class="glyphicon glyphicon-log-out"></span> Logout</button>
+            <a href="/restaurant/new" type="button" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span> Add
             </a>
         </H1>
-        <table class="table table-striped">
-            <tr>
-                <th>ID</th>
+        <table class="table table-hover table-responsive">
+            <tr class="active">
+                <th>#</th>
                 <th>Name</th>
             </tr>
             <% restaurants.forEach(function(rt) { %>
-                <tr>
+                <tr class="active">
                     <td>
                         <%= rt.restaurant_id %>
                     </td>
