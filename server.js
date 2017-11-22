@@ -6,7 +6,6 @@ import morgan from 'morgan'
 import config from './core/config/config.dev'
 import route from './routes/route'
 import connectToDb from './db/connect'
-import favicon from 'serve-favicon'
 import path from 'path'
 import compression from 'compression'
 import fileUpload from 'express-fileupload'
@@ -44,7 +43,6 @@ app.use(fileUpload({
 app.use(morgan("dev", {
     "stream": logger.stream
 }))
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'public')))
