@@ -15,10 +15,10 @@
                 <th>#</th>
                 <th>Name</th>
             </tr>
-            <% restaurants.forEach(function(rt) { %>
+            <% restaurants.forEach(function(rt,i) { %>
                 <tr class="success">
                     <td>
-                        <%= rt.restaurant_id %>
+                        <%= i+1 %>
                     </td>
                     <td>
                         <a href=<%="/restaurant/display/" +rt._id %>>
