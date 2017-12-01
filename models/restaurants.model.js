@@ -15,6 +15,7 @@ RestaurantsModel.addRestaurant = (restaurantToAdd, reject) => {
         if (data.length > 0) return reject('duplicate restaurant name')
         return global.rt.count()
     }).then((count) => {
+        if(typeof(count)=='undefined')return
         restaurantToAdd['restaurant_id'] = count + 1
         return global.rt.insert(restaurantToAdd)
     })

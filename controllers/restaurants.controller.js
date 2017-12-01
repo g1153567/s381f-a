@@ -11,10 +11,10 @@ controller.read = async(req, res) => {
         const restaurants = await Restaurant.read({}, {
             restaurant_id: 1,
             name: 1,
-            borough:1,
-            address:1,
-            owner:1,
-            cuisine:1
+            borough: 1,
+            address: 1,
+            owner: 1,
+            cuisine: 1
         })
         logger.info('sending all restaurants...')
         res.render('index', {
@@ -70,17 +70,17 @@ controller.readApi = async(req, res) => {
 
 controller.addRestaurantApi = (req, res) => {
     new Promise((resolve, reject) => {
-        addRtFlow(req, resolve, reject)
+        addRtFlow(req, resolve, reject, true)
     }).then((data) => {
         res.send({
             status: 'ok',
             _id: data.insertedIds[0]
         })
     }).catch((err) => {
-        logger.error('Error in getting restaurants - ' + err)
+        logger.error('Error in creating restaurants - ' + err)
         res.send({
             status: 'failed',
-            message: 'Error in getting restaurants - ' + err
+            message: 'Error in creating restaurants - ' + err
         })
     })
 }
@@ -96,22 +96,45 @@ controller.addRestaurant = (req, res) => {
     })
 }
 
-const getFormData = (req) => {
-    // const restaurant_id = req.body.restaurant_id
-    const name = req.body.name
-    const cuisine = req.body.cuisine
-    const borough = req.body.borough
-    const street = req.body.street
-    const building = req.body.building
-    const zipcode = req.body.zipcode
-    const gpsLon = req.body.longtitude
-    const gpsLat = req.body.latitude
-    // const photo = req.body.photo
-    const owner = req.session.username || 'root'
-    const errMsg = ' is not defined'
-    const photo = getPhoto(req)
+const getFormData = (req, isApi) => {
+    let name = req.body.name
+    let cuisine = req.body.cuisine
+    let borough = req.body.borough
+    let street
+    let building
+    let zipcode
+    let gpsLon
+    let gpsLat
+    let owner
+    let photo
+    if (isApi) {
+        if (req.body.address) {
+            street = req.body.address.street || ''
+            building = req.body.address.building || ''
+            zipcode = req.body.address.zipcode || ''
+            gpsLon = req.body.address.coord.longtitude || ''
+            gpsLat = req.body.address.coord.latitude || ''
+        } else {
+            street = ''
+            building = ''
+            zipcode = ''
+            gpsLon = ''
+            gpsLat = ''
+        }
+        owner = req.body.owner || 'root'
+        photo = req.body.photo || {}
+    } else {
+        street = req.body.street
+        building = req.body.building
+        zipcode = req.body.zipcode
+        gpsLon = req.body.longtitude
+        gpsLat = req.body.latitude
+        owner = req.session.username || 'root'
+        photo = getPhoto(req)
+    }
     assert.notEqual(name, undefined, 'name' + errMsg)
     assert.notEqual(owner, undefined, 'owner' + errMsg)
+    const errMsg = ' is not defined'
 
     let restaurantToAdd = {
         name,
@@ -146,11 +169,12 @@ const getPhoto = (req) => {
         })
         photo['uploadPath'] = uploadPath
     }
+    // if(Object.keys().length == 0
     return photo
 }
 
-const addRtFlow = async(req, resolve, reject) => {
-    let formData = getFormData(req)
+const addRtFlow = async(req, resolve, reject, isApi) => {
+    let formData = getFormData(req, isApi)
     formData['grades'] = []
     // formData['photo']=getPhoto(req)
     const savedRestaurant = await Restaurant.addRestaurant(formData, reject)
@@ -170,7 +194,7 @@ controller.rateRestaurant = async(req, res) => {
                     score: rate
                 }
             }
-        },req.session.username)
+        }, req.session.username)
         logger.info('Rated Restaurant- ' + rateRestaurant)
         res.redirect('/restaurant/display/' + id)
     } catch (err) {
@@ -185,7 +209,7 @@ controller.editRestaurant = async(req, res) => {
     try {
         const editedRestaurant = await Restaurant.editRestaurant({
             _id: new ObjectID(id)
-        }, formData,req.session.username)
+        }, formData, req.session.username)
         logger.info('Edited Restaurant- ' + editedRestaurant)
         res.redirect('/restaurant/display/' + id)
     } catch (err) {
