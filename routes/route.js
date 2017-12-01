@@ -78,15 +78,15 @@ router.get(rtUrl + '/display/:id', (req, res) => {
 })
 
 router.get(apiUrl + rtUrl + '/read/:param1/:param2', (req, res) => {
-    authen(req, res, () => {
+    // authen(req, res, () => {
         restaurantController.readApi(req, res)
-    })
+    // })
 })
 
 router.post(apiUrl + rtUrl + '/create', (req, res) => {
-    authen(req, res, () => {
+    // authen(req, res, () => {
         restaurantController.addRestaurantApi(req, res)
-    })
+    // })
 })
 
 router.post(rtUrl, (req, res) => {

@@ -10,7 +10,11 @@ controller.read = async(req, res) => {
     try {
         const restaurants = await Restaurant.read({}, {
             restaurant_id: 1,
-            name: 1
+            name: 1,
+            borough:1,
+            address:1,
+            owner:1,
+            cuisine:1
         })
         logger.info('sending all restaurants...')
         res.render('index', {

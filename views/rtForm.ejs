@@ -6,19 +6,19 @@
         </H1>
         <form id="addRt-form" class="input-margin" role='form' action=<%= (type=="edit")?"/restaurant/edit/"+restaurant._id:"/restaurant" %> method="POST" encType="multipart/form-data">
             <div class="form-group">
-                <input type="text" class="form-control" name="name" id="rtName" placeholder="Restaurant Name" required value=<%= restaurant.name||"" %> >
+                <input type="text" class="form-control" name="name" id="rtName" placeholder="Restaurant Name" required value="<%= restaurant.name||"" %>" >
             </div>
             <div class="form-group">
-                    <input type="text" class="form-control" name="borough" id="rtBorough" placeholder="Borough" value=<%= restaurant.borough||"" %>>
+                    <input type="text" class="form-control" name="borough" id="rtBorough" placeholder="Borough" value="<%= restaurant.borough||"" %>">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="cuisine" id="rtCuisine" placeholder="Cuisine" value=<%= restaurant.cuisine||"" %>>
+                <input type="text" class="form-control" name="cuisine" id="rtCuisine" placeholder="Cuisine" value="<%= restaurant.cuisine||"" %>">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="street" id="rtStreet" placeholder="Street" value=<%=                  restaurant.address.street||"" %>>
+                <input type="text" class="form-control" name="street" id="rtStreet" placeholder="Street" value="<%=                  restaurant.address.street||"" %>">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="building" id="rtBuilding" placeholder="Building" value=<%= restaurant.address.building||"" %>>
+                <input type="text" class="form-control" name="building" id="rtBuilding" placeholder="Building" value="<%= restaurant.address.building||"" %>">
             </div>
             <div class="form-group">
                 <input type="number" class="form-control" name="zipcode" id="rtZipcode" placeholder="Zipcode" value=<%= restaurant.address.zipcode||"" %>>
