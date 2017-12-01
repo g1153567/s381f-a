@@ -93,15 +93,15 @@ router.get(rtUrl + '/display/:id', function (req, res) {
 });
 
 router.get(apiUrl + rtUrl + '/read/:param1/:param2', function (req, res) {
-    authen(req, res, function () {
-        _restaurants2.default.readApi(req, res);
-    });
+    // authen(req, res, () => {
+    _restaurants2.default.readApi(req, res);
+    // })
 });
 
 router.post(apiUrl + rtUrl + '/create', function (req, res) {
-    authen(req, res, function () {
-        _restaurants2.default.addRestaurantApi(req, res);
-    });
+    // authen(req, res, () => {
+    _restaurants2.default.addRestaurantApi(req, res);
+    // })
 });
 
 router.post(rtUrl, function (req, res) {

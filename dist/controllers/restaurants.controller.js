@@ -49,7 +49,11 @@ controller.read = function () {
                         _context.next = 3;
                         return _restaurants2.default.read({}, {
                             restaurant_id: 1,
-                            name: 1
+                            name: 1,
+                            borough: 1,
+                            address: 1,
+                            owner: 1,
+                            cuisine: 1
                         });
 
                     case 3:
@@ -188,17 +192,17 @@ controller.readApi = function () {
 
 controller.addRestaurantApi = function (req, res) {
     new _promise2.default(function (resolve, reject) {
-        addRtFlow(req, resolve, reject);
+        addRtFlow(req, resolve, reject, true);
     }).then(function (data) {
         res.send({
             status: 'ok',
             _id: data.insertedIds[0]
         });
     }).catch(function (err) {
-        _appLogger2.default.error('Error in getting restaurants - ' + err);
+        _appLogger2.default.error('Error in creating restaurants - ' + err);
         res.send({
             status: 'failed',
-            message: 'Error in getting restaurants - ' + err
+            message: 'Error in creating restaurants - ' + err
         });
     });
 };
@@ -214,22 +218,45 @@ controller.addRestaurant = function (req, res) {
     });
 };
 
-var getFormData = function getFormData(req) {
-    // const restaurant_id = req.body.restaurant_id
+var getFormData = function getFormData(req, isApi) {
     var name = req.body.name;
     var cuisine = req.body.cuisine;
     var borough = req.body.borough;
-    var street = req.body.street;
-    var building = req.body.building;
-    var zipcode = req.body.zipcode;
-    var gpsLon = req.body.longtitude;
-    var gpsLat = req.body.latitude;
-    // const photo = req.body.photo
-    var owner = req.session.username || 'root';
-    var errMsg = ' is not defined';
-    var photo = getPhoto(req);
+    var street = void 0;
+    var building = void 0;
+    var zipcode = void 0;
+    var gpsLon = void 0;
+    var gpsLat = void 0;
+    var owner = void 0;
+    var photo = void 0;
+    if (isApi) {
+        if (req.body.address) {
+            street = req.body.address.street || '';
+            building = req.body.address.building || '';
+            zipcode = req.body.address.zipcode || '';
+            gpsLon = req.body.address.coord.longtitude || '';
+            gpsLat = req.body.address.coord.latitude || '';
+        } else {
+            street = '';
+            building = '';
+            zipcode = '';
+            gpsLon = '';
+            gpsLat = '';
+        }
+        owner = req.body.owner || 'root';
+        photo = req.body.photo || {};
+    } else {
+        street = req.body.street;
+        building = req.body.building;
+        zipcode = req.body.zipcode;
+        gpsLon = req.body.longtitude;
+        gpsLat = req.body.latitude;
+        owner = req.session.username || 'root';
+        photo = getPhoto(req);
+    }
     _assert2.default.notEqual(name, undefined, 'name' + errMsg);
     _assert2.default.notEqual(owner, undefined, 'owner' + errMsg);
+    var errMsg = ' is not defined';
 
     var restaurantToAdd = {
         name: name,
@@ -263,17 +290,18 @@ var getPhoto = function getPhoto(req) {
         });
         photo['uploadPath'] = uploadPath;
     }
+    // if(Object.keys().length == 0
     return photo;
 };
 
 var addRtFlow = function () {
-    var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, resolve, reject) {
+    var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, resolve, reject, isApi) {
         var formData, savedRestaurant;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
             while (1) {
                 switch (_context4.prev = _context4.next) {
                     case 0:
-                        formData = getFormData(req);
+                        formData = getFormData(req, isApi);
 
                         formData['grades'] = [];
                         // formData['photo']=getPhoto(req)
@@ -293,7 +321,7 @@ var addRtFlow = function () {
         }, _callee4, undefined);
     }));
 
-    return function addRtFlow(_x8, _x9, _x10) {
+    return function addRtFlow(_x8, _x9, _x10, _x11) {
         return _ref4.apply(this, arguments);
     };
 }();
@@ -343,7 +371,7 @@ controller.rateRestaurant = function () {
         }, _callee5, undefined, [[2, 10]]);
     }));
 
-    return function (_x11, _x12) {
+    return function (_x12, _x13) {
         return _ref5.apply(this, arguments);
     };
 }();
@@ -386,7 +414,7 @@ controller.editRestaurant = function () {
         }, _callee6, undefined, [[2, 10]]);
     }));
 
-    return function (_x13, _x14) {
+    return function (_x14, _x15) {
         return _ref6.apply(this, arguments);
     };
 }();
@@ -427,7 +455,7 @@ controller.deleteRestaurant = function () {
         }, _callee7, undefined, [[2, 10]]);
     }));
 
-    return function (_x15, _x16) {
+    return function (_x16, _x17) {
         return _ref7.apply(this, arguments);
     };
 }();

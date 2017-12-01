@@ -1,32 +1,74 @@
 <% include ./head %>
     <div class="container">
         <br />
-        <p class="pull-right">Login as <%= username %>
-            <a href="/logout" type="button" class="btn btn-sm btn-info">
+        <p class="pull-right">Login as
+            <%= username %>
+                <a href="/logout" type="button" class="btn btn-sm btn-info">
                     <span class="glyphicon glyphicon-log-out"></span> Logout
-            </a></p>
+                </a>
+        </p>
         <H1>Restaurants
             <a href="/restaurant/new" type="button" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span> Add
+                <span class="glyphicon glyphicon-plus"></span> Add
             </a>
         </H1>
-        <table class="table table-hover table-responsive table-condensed table-bordered">
-            <tr class="success">
-                <th>#</th>
-                <th>Name</th>
-            </tr>
-            <% restaurants.forEach(function(rt,i) { %>
+        <table id="rtTable" class="table table-hover table-responsive table-condensed table-bordered" cellspacing="0" width="100%">
+            <thead>
                 <tr class="success">
-                    <td>
-                        <%= i+1 %>
-                    </td>
-                    <td>
-                        <a href=<%="/restaurant/display/" +rt._id %>>
-                            <%= rt.name %>
-                        </a>
-                    </td>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Borough</th>
+                    <th>Cuisine</th>
+                    <th>Street</th>
+                    <th>Building</th>
+                    <th>Zipcode</th>
+                    <th>Created by</th>
                 </tr>
-                <% }) %>
+            </thead>
+            <tbody>
+                <% restaurants.forEach(function(rt,i) { %>
+                    <tr class="success">
+                        <td>
+                            <%= i+1 %>
+                        </td>
+                        <td>
+                            <a href=<%="/restaurant/display/" +rt._id %>>
+                                <%= rt.name %>
+                            </a>
+                        </td>
+                        <td>
+                            <%= rt.borough %>
+                        </td>
+                        <td>
+                                <%= rt.cuisine %>
+                        </td>
+                        <td>
+                                <%= rt.address.street %>
+                        </td>
+                        <td>
+                                <%= rt.address.building %>
+                        </td>
+                        <td>
+                                <%= rt.address.zipcode %>
+                        </td>
+                        <td>
+                                <%= rt.owner %>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
         </table>
         <hr>
-        <% include ./foot %>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var dt=$('#rtTable').DataTable();
+            dt.column(2).visible(false);//hide for search
+            dt.column(3).visible(false);//hide for search
+            dt.column(4).visible(false);//hide for search
+            dt.column(5).visible(false);//hide for search
+            dt.column(6).visible(false);//hide for search
+            dt.column(7).visible(false);//hide for search
+        })
+    </script>
+    <% include ./foot %>
