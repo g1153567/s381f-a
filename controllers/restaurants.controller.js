@@ -70,7 +70,7 @@ controller.readApi = async(req, res) => {
 
 controller.addRestaurantApi = (req, res) => {
     new Promise((resolve, reject) => {
-        addRtFlow(req, resolve, reject, true)
+        addRtFlow(req, resolve, reject, true, res)
     }).then((data) => {
         res.send({
             status: 'ok',
@@ -87,7 +87,7 @@ controller.addRestaurantApi = (req, res) => {
 
 controller.addRestaurant = (req, res) => {
     new Promise((resolve, reject) => {
-        addRtFlow(req, resolve, reject)
+        addRtFlow(req, resolve, reject, res)
     }).then((data) => {
         res.redirect('/restaurant/display/' + data.ops[0]._id)
     }).catch((err) => {
@@ -96,7 +96,7 @@ controller.addRestaurant = (req, res) => {
     })
 }
 
-const getFormData = (req, isApi) => {
+const getFormData = (req, isApi, res) => {
     let name = req.body.name
     let cuisine = req.body.cuisine
     let borough = req.body.borough
@@ -130,7 +130,7 @@ const getFormData = (req, isApi) => {
         gpsLon = req.body.longtitude
         gpsLat = req.body.latitude
         owner = req.session.username || 'root'
-        photo = getPhoto(req,res)
+        photo = getPhoto(req, res)
     }
     assert.notEqual(name, undefined, 'name' + errMsg)
     assert.notEqual(owner, undefined, 'owner' + errMsg)
@@ -156,7 +156,7 @@ const getFormData = (req, isApi) => {
     return restaurantToAdd
 }
 
-const getPhoto = (req,res) => {
+const getPhoto = (req, res) => {
     var photo = {}
     if (req.files && req.files.rtPhoto) {
         photo = req.files.rtPhoto
@@ -175,8 +175,8 @@ const getPhoto = (req,res) => {
     return photo
 }
 
-const addRtFlow = async(req, resolve, reject, isApi) => {
-    let formData = getFormData(req, isApi)
+const addRtFlow = async(req, resolve, reject, isApi, res) => {
+    let formData = getFormData(req, isApi, res)
     formData['grades'] = []
     // formData['photo']=getPhoto(req)
     const savedRestaurant = await Restaurant.addRestaurant(formData, reject)
@@ -207,7 +207,7 @@ controller.rateRestaurant = async(req, res) => {
 
 controller.editRestaurant = async(req, res) => {
     let id = req.params.id
-    let formData = getFormData(req)
+    let formData = getFormData(req, res)
     try {
         const editedRestaurant = await Restaurant.editRestaurant({
             _id: new ObjectID(id)
