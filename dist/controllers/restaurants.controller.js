@@ -209,7 +209,7 @@ controller.addRestaurantApi = function (req, res) {
 
 controller.addRestaurant = function (req, res) {
     new _promise2.default(function (resolve, reject) {
-        addRtFlow(req, resolve, reject, res);
+        addRtFlow(req, resolve, reject, false, res);
     }).then(function (data) {
         res.redirect('/restaurant/display/' + data.ops[0]._id);
     }).catch(function (err) {
@@ -284,10 +284,10 @@ var getPhoto = function getPhoto(req, res) {
         photo = req.files.rtPhoto;
         var fileName = photo.name,
             type = photo.mimetype;
-        if (!type.includes('image')) res.send(alertMsg('Failed to create restaurant- invalid mimetype ' + type));
+        if (!type.includes('image')) res.send(alertMsg('Failed to create restaurant- invalid mime-type ' + type));
         var uploadPath = global.rootPath + '/public/images/' + req.body.name + '.' + type.replace('image/', '');
         photo.mv(uploadPath, function (err) {
-            if (err) return res.status(500).send(err);
+            if (err) return res.send(alertMsg('Failed to create restaurant- ' + err));
         });
         photo['uploadPath'] = uploadPath;
     }
@@ -385,7 +385,7 @@ controller.editRestaurant = function () {
                 switch (_context6.prev = _context6.next) {
                     case 0:
                         id = req.params.id;
-                        formData = getFormData(req, res);
+                        formData = getFormData(req, false, res);
                         _context6.prev = 2;
                         _context6.next = 5;
                         return _restaurants2.default.editRestaurant({

@@ -87,7 +87,7 @@ controller.addRestaurantApi = (req, res) => {
 
 controller.addRestaurant = (req, res) => {
     new Promise((resolve, reject) => {
-        addRtFlow(req, resolve, reject, res)
+        addRtFlow(req, resolve, reject,false, res)
     }).then((data) => {
         res.redirect('/restaurant/display/' + data.ops[0]._id)
     }).catch((err) => {
@@ -163,11 +163,11 @@ const getPhoto = (req, res) => {
         var fileName = photo.name,
             type = photo.mimetype
         if (!type.includes('image'))
-            res.send(alertMsg('Failed to create restaurant- invalid mimetype ' + type))
+            res.send(alertMsg('Failed to create restaurant- invalid mime-type ' + type))
         const uploadPath = global.rootPath + '/public/images/' + req.body.name + '.' + type.replace('image/', '')
         photo.mv(uploadPath, function (err) {
             if (err)
-                return res.status(500).send(err)
+                return res.send(alertMsg('Failed to create restaurant- '+err))
         })
         photo['uploadPath'] = uploadPath
     }
@@ -207,7 +207,7 @@ controller.rateRestaurant = async(req, res) => {
 
 controller.editRestaurant = async(req, res) => {
     let id = req.params.id
-    let formData = getFormData(req, res)
+    let formData = getFormData(req, false,res)
     try {
         const editedRestaurant = await Restaurant.editRestaurant({
             _id: new ObjectID(id)
