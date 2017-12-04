@@ -58,7 +58,16 @@ RestaurantsModel.rateRestaurant = function (options1, options2, owner) {
         });
     }).then(function (data) {
         return data[0].grades.map(function (grade) {
-            if (grade.user == owner) throw 'You have already rated the restaurant';
+            // if(grade.user==owner)throw ('You have already rated the restaurant')
+            if (grade.user == owner) {
+                return global.rt.update(options1, {
+                    $pull: {
+                        grades: {
+                            user: owner
+                        }
+                    }
+                });
+            }
         });
     }).then(function (data) {
         return global.rt.update(options1, options2);
