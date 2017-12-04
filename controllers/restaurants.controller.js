@@ -130,7 +130,7 @@ const getFormData = (req, isApi) => {
         gpsLon = req.body.longtitude
         gpsLat = req.body.latitude
         owner = req.session.username || 'root'
-        photo = getPhoto(req)
+        photo = getPhoto(req,res)
     }
     assert.notEqual(name, undefined, 'name' + errMsg)
     assert.notEqual(owner, undefined, 'owner' + errMsg)
@@ -156,7 +156,7 @@ const getFormData = (req, isApi) => {
     return restaurantToAdd
 }
 
-const getPhoto = (req) => {
+const getPhoto = (req,res) => {
     var photo = {}
     if (req.files && req.files.rtPhoto) {
         photo = req.files.rtPhoto
