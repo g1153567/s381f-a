@@ -254,9 +254,9 @@ var getFormData = function getFormData(req, isApi, res) {
         owner = req.session.username || 'root';
         photo = getPhoto(req, res);
     }
+    var errMsg = ' is not defined';
     _assert2.default.notEqual(name, undefined, 'name' + errMsg);
     _assert2.default.notEqual(owner, undefined, 'owner' + errMsg);
-    var errMsg = ' is not defined';
 
     var restaurantToAdd = {
         name: name,

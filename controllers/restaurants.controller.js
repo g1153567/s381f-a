@@ -132,9 +132,9 @@ const getFormData = (req, isApi, res) => {
         owner = req.session.username || 'root'
         photo = getPhoto(req, res)
     }
+    const errMsg = ' is not defined'
     assert.notEqual(name, undefined, 'name' + errMsg)
     assert.notEqual(owner, undefined, 'owner' + errMsg)
-    const errMsg = ' is not defined'
 
     let restaurantToAdd = {
         name,
