@@ -252,7 +252,7 @@ var getFormData = function getFormData(req, isApi) {
         gpsLon = req.body.longtitude;
         gpsLat = req.body.latitude;
         owner = req.session.username || 'root';
-        photo = getPhoto(req);
+        photo = getPhoto(req, res);
     }
     _assert2.default.notEqual(name, undefined, 'name' + errMsg);
     _assert2.default.notEqual(owner, undefined, 'owner' + errMsg);
@@ -278,7 +278,7 @@ var getFormData = function getFormData(req, isApi) {
     return restaurantToAdd;
 };
 
-var getPhoto = function getPhoto(req) {
+var getPhoto = function getPhoto(req, res) {
     var photo = {};
     if (req.files && req.files.rtPhoto) {
         photo = req.files.rtPhoto;
