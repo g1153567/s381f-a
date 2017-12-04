@@ -192,7 +192,7 @@ controller.readApi = function () {
 
 controller.addRestaurantApi = function (req, res) {
     new _promise2.default(function (resolve, reject) {
-        addRtFlow(req, resolve, reject, true);
+        addRtFlow(req, resolve, reject, true, res);
     }).then(function (data) {
         res.send({
             status: 'ok',
@@ -209,7 +209,7 @@ controller.addRestaurantApi = function (req, res) {
 
 controller.addRestaurant = function (req, res) {
     new _promise2.default(function (resolve, reject) {
-        addRtFlow(req, resolve, reject);
+        addRtFlow(req, resolve, reject, res);
     }).then(function (data) {
         res.redirect('/restaurant/display/' + data.ops[0]._id);
     }).catch(function (err) {
@@ -218,7 +218,7 @@ controller.addRestaurant = function (req, res) {
     });
 };
 
-var getFormData = function getFormData(req, isApi) {
+var getFormData = function getFormData(req, isApi, res) {
     var name = req.body.name;
     var cuisine = req.body.cuisine;
     var borough = req.body.borough;
@@ -296,13 +296,13 @@ var getPhoto = function getPhoto(req, res) {
 };
 
 var addRtFlow = function () {
-    var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, resolve, reject, isApi) {
+    var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, resolve, reject, isApi, res) {
         var formData, savedRestaurant;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
             while (1) {
                 switch (_context4.prev = _context4.next) {
                     case 0:
-                        formData = getFormData(req, isApi);
+                        formData = getFormData(req, isApi, res);
 
                         formData['grades'] = [];
                         // formData['photo']=getPhoto(req)
@@ -322,7 +322,7 @@ var addRtFlow = function () {
         }, _callee4, undefined);
     }));
 
-    return function addRtFlow(_x8, _x9, _x10, _x11) {
+    return function addRtFlow(_x8, _x9, _x10, _x11, _x12) {
         return _ref4.apply(this, arguments);
     };
 }();
@@ -372,7 +372,7 @@ controller.rateRestaurant = function () {
         }, _callee5, undefined, [[2, 10]]);
     }));
 
-    return function (_x12, _x13) {
+    return function (_x13, _x14) {
         return _ref5.apply(this, arguments);
     };
 }();
@@ -385,7 +385,7 @@ controller.editRestaurant = function () {
                 switch (_context6.prev = _context6.next) {
                     case 0:
                         id = req.params.id;
-                        formData = getFormData(req);
+                        formData = getFormData(req, res);
                         _context6.prev = 2;
                         _context6.next = 5;
                         return _restaurants2.default.editRestaurant({
@@ -415,7 +415,7 @@ controller.editRestaurant = function () {
         }, _callee6, undefined, [[2, 10]]);
     }));
 
-    return function (_x14, _x15) {
+    return function (_x15, _x16) {
         return _ref6.apply(this, arguments);
     };
 }();
@@ -456,7 +456,7 @@ controller.deleteRestaurant = function () {
         }, _callee7, undefined, [[2, 10]]);
     }));
 
-    return function (_x16, _x17) {
+    return function (_x17, _x18) {
         return _ref7.apply(this, arguments);
     };
 }();
