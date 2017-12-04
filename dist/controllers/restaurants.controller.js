@@ -284,7 +284,7 @@ var getPhoto = function getPhoto(req, res) {
         photo = req.files.rtPhoto;
         var fileName = photo.name,
             type = photo.mimetype;
-        if (!type.includes('image')) res.send(alertMsg('Failed to create restaurant- invalid mime-type ' + type));
+        if (!type.includes('image')) return res.send(alertMsg('Failed to create restaurant- invalid mime-type ' + type));
         var uploadPath = global.rootPath + '/public/images/' + req.body.name + '.' + type.replace('image/', '');
         photo.mv(uploadPath, function (err) {
             if (err) return res.send(alertMsg('Failed to create restaurant- ' + err));

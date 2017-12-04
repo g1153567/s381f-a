@@ -163,7 +163,7 @@ const getPhoto = (req, res) => {
         var fileName = photo.name,
             type = photo.mimetype
         if (!type.includes('image'))
-            res.send(alertMsg('Failed to create restaurant- invalid mime-type ' + type))
+            return res.send(alertMsg('Failed to create restaurant- invalid mime-type ' + type))
         const uploadPath = global.rootPath + '/public/images/' + req.body.name + '.' + type.replace('image/', '')
         photo.mv(uploadPath, function (err) {
             if (err)
